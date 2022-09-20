@@ -17,6 +17,7 @@ namespace StudentInfo.Infrastructure.Persistence
                 {
                     UserName = "Admin",
                     SecurityStamp = Guid.NewGuid().ToString(),
+                    Birthday= DateTime.Now
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "Admin123").Result;

@@ -3,6 +3,8 @@ version: '3.4'
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
   ocelotapigw:
     image: ${DOCKER_REGISTRY-}ocelotapigw
     build:

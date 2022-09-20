@@ -7,6 +7,16 @@ services:
     ports:
         - "5672:5672"
         - "15672:15672"
+  mssql:
+    container_name: mssql
+    environment:
+        SA_PASSWORD: "Admin123"
+        ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+        - "1433:1433"
+    volumes:
+        - C:\mssqlTemp:/var/opt/mssql/data
   ocelotapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -29,12 +39,15 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+        - mssql
   diplomaandcertification.webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     depends_on:
       - rabbitmq
+      - mssql
     ports:
       - "8002:80"
     volumes:
