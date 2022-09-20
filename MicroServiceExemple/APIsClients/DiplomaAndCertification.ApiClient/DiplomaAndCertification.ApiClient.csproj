@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApisClients.Common\ApisClients.Common.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\CommonBlocks\DTO\DiplomaAndCertification.DTO\DiplomaAndCertification.DTO.projitems" Label="Shared" />
+
+</Project>

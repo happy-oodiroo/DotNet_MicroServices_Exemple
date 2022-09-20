@@ -1,0 +1,82 @@
+﻿@page "/certificates"
+
+@inject DiplomaAndCertification.ApiClient.DiplomaAndCertificationApiServices  DiplomaAndCertificationApiServices
+@attribute [Authorize]
+<PageTitle>Your Certificates List </PageTitle>
+@if (!string.IsNullOrEmpty(sucsess))
+{
+    <div class="alert alert-info">
+        @sucsess
+    </div>
+}
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+@if(certificates is null){
+    <p><em>Loading...</em></p>
+}
+else{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>ObtainedDate</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var certificate in certificates)
+            {
+                <tr>
+                    <td>@certificate.Title</td>
+                    <td>@certificate.ObtainedDate.ToShortDateString()</td>
+                    <td>
+                        <button disabled="@loading" class="btn btn-primary " @onclick="args =>SendEmail(certificate.Id,args)">
+                            Send it
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ICollection<DiplomaAndCertification.DTO.CertificateDto>? certificates;
+    private bool loading;
+    private string? error;
+    private string? sucsess;
+
+    protected override async Task OnInitializedAsync()
+    {
+        certificates = await DiplomaAndCertificationApiServices.CertificatesAllAsync();
+    }
+
+    async void SendEmail(Guid id, MouseEventArgs args)
+    {
+
+        try{
+            this.loading = true;
+            error = "";
+            sucsess = string.Empty;
+            var responce = await DiplomaAndCertificationApiServices.SendItByEmailAsync(id);
+            sucsess = responce.Message;
+            this.loading = false;
+            StateHasChanged();
+            await Task.Delay(10000);
+            sucsess = string.Empty;            
+            StateHasChanged();
+            
+        }
+        catch (ApisClients.Common.ApiException apiEx)
+        {
+            this.loading = false;
+            error = apiEx.Message;
+            StateHasChanged();
+            await Task.Delay(10000);
+            error = apiEx.Message;
+            StateHasChanged();
+        }
+    }
+}

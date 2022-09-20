@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: ApiGateways/OcelotApiGw/Dockerfile
+
+  studentinfo.webapi:
+    image: ${DOCKER_REGISTRY-}studentinfowebapi
+    build:
+      context: .
+      dockerfile: Services/StudentInfo/StudentInfo.WebApi/Dockerfile
+
+
+  studentwebportal.server:
+    image: ${DOCKER_REGISTRY-}studentwebportalserver
+    build:
+      context: .
+      dockerfile: WebApps/StudentWebPortal/Server/Dockerfile
+
+
+  diplomaandcertification.webapi:
+    image: ${DOCKER_REGISTRY-}diplomaandcertificationwebapi
+    build:
+      context: .
+      dockerfile: Services/DiplomaAndCertification/DiplomaAndCertification.WebApi/Dockerfile
+
+  emailsenderservice:
+    image: ${DOCKER_REGISTRY-}emailsenderservice
+    build:
+      context: .
+      dockerfile: Services/EmailSenderService/Dockerfile
+

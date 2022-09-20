@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ApisClients.Common": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:55878;http://localhost:55879"
+    }
+  }
+}

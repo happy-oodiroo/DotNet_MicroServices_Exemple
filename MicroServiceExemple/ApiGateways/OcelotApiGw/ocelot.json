@@ -1,0 +1,59 @@
+{
+  "Routes": [
+    //StudentInfo API
+    {
+      "DownstreamPathTemplate": "/StudentInfo/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8001
+        }
+      ],
+      "UpstreamPathTemplate": "/StudentInfo/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey": "StudentInfo"
+    },
+    //DiplomaAndCertification API
+    {
+      "DownstreamPathTemplate": "/DiplomaAndCertification/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8002
+        }
+      ],
+      "UpstreamPathTemplate": "/DiplomaAndCertification/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "SwaggerKey": "DiplomaAndCertification"
+    }
+
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "StudentInfo",
+      "Config": [
+        {
+          "Name": "Student Info API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:8001/StudentInfo/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "DiplomaAndCertification",
+      "Config": [
+        {
+          "Name": "Diploma And Certification API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:8002/DiplomaAndCertification/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+  }
+}

@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<div class="page">
+    <main>
+        <article class="content px-4">
+            <div class="col-md-6 offset-md-3 mt-5">
+            @Body
+            </div>
+        </article>
+    </main>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // redirect to home if already logged in
+    }
+}

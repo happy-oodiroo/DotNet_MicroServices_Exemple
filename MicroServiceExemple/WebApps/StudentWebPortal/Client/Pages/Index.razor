@@ -1,0 +1,14 @@
+﻿@page "/"
+@attribute [Authorize]
+<PageTitle>Home</PageTitle>
+
+
+<AuthorizeView>
+    <Authorized >
+        <b>@context.User?.Identity?.Name</b> Welcome to Student Web Portal.
+    </Authorized>
+</AuthorizeView>
+
+@code{
+
+}

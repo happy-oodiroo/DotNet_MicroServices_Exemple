@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>42c3b128-ea5c-4b3f-bc5a-a23e1518c702</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>StudentInfo.DTO</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ChangePasswordDto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LoginDto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegisterDto.cs" />
+  </ItemGroup>
+</Project>

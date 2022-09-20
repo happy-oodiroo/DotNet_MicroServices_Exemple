@@ -1,0 +1,11 @@
+﻿@inject NavigationManager NavigationManager
+@code {
+
+    [Parameter]
+    public string To { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.NavigateTo(To);
+    }
+}

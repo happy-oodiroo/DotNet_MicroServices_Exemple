@@ -1,0 +1,86 @@
+﻿@page "/login"
+@layout Account.Layout
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authorization
+@inject StudentInfo.ApiClient.StudentInfoApiServices StudentInfoApiServices
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorageService
+
+
+    <div class="card">
+        <h4 class="card-header">Student Web Portal</h4>
+        <div class="card-body">
+            <EditForm Model="@model" OnValidSubmit="HandleValidSubmit" >
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label>Unique Identifier</label>
+                    <input @bind="model.UniqueIdentifier" class="form-control" @bind:event="oninput" />
+                    <ValidationMessage For="@(() => model.UniqueIdentifier)" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                    <ValidationMessage For="@(() => model.Password)" />
+                </div>
+            <button disabled="@loading" class="btn btn-primary" style="margin-top:1em">
+                    @if (loading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </button>
+            <NavLink href="/singup" class="btn btn-link" style="margin-top:1em">Register</NavLink>
+                @if (!string.IsNullOrEmpty(error))
+                {
+                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                }
+            </EditForm>
+        </div>
+    </div>
+
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private StudentInfo.DTO.LoginDto? model = new StudentInfo.DTO.LoginDto();
+    private bool loading;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+
+        if ((authState?.User?.Identity?.IsAuthenticated).GetValueOrDefault())
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        try
+        {
+            this.loading = true;
+            error = "";
+            var loginResponce = await StudentInfoApiServices.LoginAsync(model);
+            LocalStorageService.SetItem<StudentInfo.DTO.LoginResponce>("currentLoginOkResponce", loginResponce);
+           
+            this.loading = false;
+            NavigationManager.NavigateTo("/", true);
+        }
+        catch (ApisClients.Common.ApiException apiEx)
+        {
+            this.loading = false;
+            error = apiEx.Message;
+        }
+        catch (Exception ex)
+        {
+            this.loading = false;
+            error = ex.Message;
+        }
+        StateHasChanged();
+
+    }
+}
